@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pertussis (Whooping Cough) – Comprehensive PHN Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        .transition-all { transition: all 0.3s ease; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .group:hover .group-hover\:rotate-y-180 { transform: rotateY(180deg); }
+
+        .recall-mode .reveal-text {
+            background-color: #cbd5e1;
+            color: transparent;
+            border-radius: 0.375rem;
+            padding: 0 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            box-shadow: inset 0 0 0 1px #94a3b8;
+        }
+        .recall-mode .reveal-text:hover,
+        .recall-mode .reveal-text.revealed {
+            background-color: #fde047;
+            color: #1e293b;
+            box-shadow: none;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #0ea5e9; border-radius: 8px; }
+        .content-section { animation: fade 0.3s ease; }
+        @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .locked-section { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { pert: { light: '#fee2e2', DEFAULT: '#dc2626', dark: '#991b1b' } } } }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 h-screen flex flex-col md:flex-row font-sans text-slate-800 overflow-hidden">
+
+    <div class="md:hidden bg-pert-dark text-white p-4 flex justify-between items-center shadow-md z-20 shrink-0">
+        <h1 class="font-bold text-lg"><i class="fa-solid fa-lungs mr-2 text-pert-light"></i> Pertussis Review</h1>
+        <button onclick="toggleMobileMenu()" class="text-white focus:outline-none"><i class="fa-solid fa-bars text-2xl"></i></button>
+    </div>
+
+    <nav id="sidebar" class="hidden md:flex flex-col w-full md:w-80 bg-white shadow-2xl h-full absolute md:relative z-30 transition-transform duration-300 shrink-0 border-r border-slate-200">
+        <div class="p-6 bg-gradient-to-br from-pert-dark to-pert text-white hidden md:block shrink-0">
+            <h1 class="font-black text-2xl tracking-wide"><i class="fa-solid fa-lungs text-pert-light mr-2"></i> Pertussis</h1>
+            <p class="text-sm text-red-100 mt-1 font-medium">Communicable Disease · PHN Review</p>
+        </div>
+        <div class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1 text-sm font-medium">
+                <li><button onclick="showSection('home')" id="btn-home" class="nav-btn w-full text-left px-6 py-3 bg-pert-light text-pert-dark border-r-4 border-pert-dark transition-colors"><i class="fa-solid fa-house w-6 nav-icon"></i><i class="fa-solid fa-lock w-6 hidden text-slate-400"></i> Home / Start</button></li>
+                <li><button onclick="showSection('overview')" id="btn-overview" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-biohazard w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Epidemiology & Overview</button></li>
+                <li><button onclick="showSection('clinical')" id="btn-clinical" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-stethoscope w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Clinical Stages & Diagnosis</button></li>
+                <li><button onclick="showSection('transmission')" id="btn-transmission" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-hand-holding-medical w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Transmission & Communicability</button></li>
+                <li><button onclick="showSection('prevention')" id="btn-prevention" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-syringe w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Prevention & Vaccination</button></li>
+                <li><button onclick="showSection('treatment')" id="btn-treatment" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-capsules w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Treatment & Complications</button></li>
+                <li><button onclick="showSection('phn')" id="btn-phn" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-user-nurse w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> PHN Role & Nursing Care</button></li>
+                <li><button onclick="showSection('mnemonics')" id="btn-mnemonics" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors border-t border-slate-200 mt-2 locked-section"><i class="fa-solid fa-brain w-6 text-pert nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Mnemonic Appendix</button></li>
+                <li><button onclick="showSection('final_quiz_sec')" id="btn-final_quiz_sec" class="nav-btn w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-graduation-cap w-6 text-amber-500 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Final 50‑Item Exam</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="flex-1 h-full overflow-y-auto bg-slate-100 relative w-full">
+        <div class="fixed top-4 right-4 md:right-8 z-40 flex items-center bg-white/90 backdrop-blur px-4 py-3 rounded-full shadow-lg border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors" onclick="toggleRecallMode()">
+            <span class="mr-3 text-sm font-bold text-slate-700 hidden md:inline"><i class="fa-solid fa-brain text-pert mr-1"></i> Active Recall</span>
+            <span class="mr-3 text-sm font-bold text-slate-700 md:hidden"><i class="fa-solid fa-brain text-pert"></i></span>
+            <button id="recall-toggle" class="w-12 h-6 bg-slate-300 rounded-full relative transition-colors duration-300 focus:outline-none shadow-inner pointer-events-none">
+                <div id="recall-knob" class="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-300 shadow"></div>
+            </button>
+        </div>
+
+        <div class="p-4 md:p-8 max-w-6xl mx-auto pb-32">
+
+            <!-- HOME SECTION -->
+            <section id="home" class="content-section flex flex-col items-center justify-center min-h-[80vh] text-center block">
+                <div class="bg-gradient-to-br from-slate-800 to-pert-dark text-white rounded-3xl shadow-2xl p-10 md:p-16 w-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mt-10 -mr-10 text-white opacity-5 pointer-events-none"><i class="fa-solid fa-cough text-[20rem]"></i></div>
+                    <div class="relative z-10">
+                        <div class="bg-white/10 backdrop-blur-sm inline-block p-4 rounded-full text-pert-light mb-6 shadow-sm border border-white/20">
+                            <i class="fa-solid fa-lungs text-5xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-red-200 mb-2 uppercase tracking-widest">Communicable Disease Review</h3>
+                        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight drop-shadow-md">Pertussis<br>(Whooping Cough)</h1>
+                        <div class="bg-white/10 backdrop-blur inline-block px-6 py-3 rounded-full mb-10 border border-white/20">
+                            <p class="text-lg text-white font-medium">"The 100‑day cough – highly contagious, preventable by vaccine."</p>
+                        </div>
+                        <button onclick="unlockFirstSection()" class="bg-red-500 hover:bg-red-400 text-white font-black py-4 px-10 rounded-full shadow-xl transition-transform hover:scale-105 text-lg flex items-center mx-auto focus:outline-none">
+                            Begin Lecture <i class="fa-solid fa-arrow-right ml-3"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 1: Epidemiology & Overview -->
+            <section id="overview" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-pert pb-3"><i class="fa-solid fa-biohazard text-pert mr-4"></i> Epidemiology & Overview</h2>
+                    <div class="bg-red-50 border-l-4 border-pert p-4 mb-6 rounded-r shadow-sm">
+                        <p><strong class="text-pert-dark">Pertussis (whooping cough)</strong> – acute, highly communicable infection of the respiratory tract caused by <span class="reveal-text font-bold">Bordetella pertussis</span>.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-lg mb-3"><i class="fa-solid fa-chart-line text-pert mr-2"></i> Public Health Significance</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-sm">
+                                <li>Predominantly a <span class="reveal-text">childhood disease</span>, highest incidence <span class="reveal-text">under 7 years</span>.</li>
+                                <li>Mortality highest in <span class="reveal-text">infants under 6 months</span>.</li>
+                                <li>Severe complications: pneumonia, seizures, encephalopathy, death.</li>
+                                <li>One attack confers <span class="reveal-text">definite and prolonged immunity</span> (second attacks rare).</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-lg mb-3"><i class="fa-solid fa-virus mr-2 text-pert"></i> Agent & Reservoir</h3>
+                            <p><strong>Etiologic agent:</strong> <em>Bordetella pertussis</em> (also called Hemophilus pertussis or Bordet-Gengou bacillus).</p>
+                            <p><strong>Source of infection:</strong> Discharges from <span class="reveal-text">laryngeal and bronchial mucous membranes</span> of infected persons.</p>
+                            <p class="mt-2"><strong>Infectivity:</strong> Extremely contagious, especially during the catarrhal stage.</p>
+                        </div>
+                    </div>
+                    <button onclick="openQuiz('overview')" class="mt-8 w-full bg-slate-800 text-white font-black py-4 rounded-xl shadow-md hover:bg-slate-900 transition-colors flex items-center justify-center text-lg"><i class="fa-solid fa-list-check mr-3 text-2xl text-pert"></i> Take Quiz to Unlock Next Section</button>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Clinical Stages & Diagnosis -->
+            <section id="clinical" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-pert pb-3"><i class="fa-solid fa-stethoscope text-pert mr-4"></i> Clinical Stages & Diagnosis</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-bold text-lg text-pert-dark mb-3">Three Clinical Stages</h3>
+                            <div class="space-y-3">
+                                <div class="bg-slate-50 p-3 rounded border-l-4 border-amber-500"><strong>1. Catarrhal stage (1‑2 weeks):</strong> onset like common cold – coryza, sneezing, low‑grade fever, mild cough.</div>
+                                <div class="bg-slate-50 p-3 rounded border-l-4 border-red-500"><strong>2. Paroxysmal stage (2‑6 weeks):</strong> paroxysms of rapid cough followed by inspiratory <span class="reveal-text font-bold">“whoop”</span>, post‑tussive vomiting, cyanosis, exhaustion.</div>
+                                <div class="bg-slate-50 p-3 rounded border-l-4 border-green-600"><strong>3. Convalescent stage (weeks to months):</strong> gradual decrease in cough severity; paroxysms may recur with subsequent respiratory infections.</div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+                            <h3 class="font-bold text-lg">Diagnosis</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-sm mt-2">
+                                <li><strong>Clinical:</strong> Paroxysmal cough with whoop and post‑tussive vomiting.</li>
+                                <li><strong>Laboratory:</strong> Nasopharyngeal swab for <span class="reveal-text">PCR</span> or <span class="reveal-text">culture</span> (gold standard, but slow).</li>
+                                <li><strong>Serology:</strong> Anti‑pertussis toxin antibodies.</li>
+                                <li><strong>Blood count:</strong> <span class="reveal-text">Lymphocytosis</span> (markedly elevated white blood cells with lymphocytosis).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button onclick="openQuiz('clinical')" class="mt-8 w-full bg-slate-800 text-white font-black py-4 rounded-xl shadow-md hover:bg-slate-900 transition-colors flex items-center justify-center text-lg"><i class="fa-solid fa-list-check mr-3 text-2xl text-pert"></i> Take Quiz to Unlock Next Section</button>
+                </div>
+            </section>
+
+            <!-- SECTION 3: Transmission & Communicability -->
+            <section id="transmission" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-pert pb-3"><i class="fa-solid fa-hand-holding-medical text-pert mr-4"></i> Transmission & Communicability</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-red-50 p-5 rounded-xl border border-red-200">
+                            <h3 class="font-bold text-lg text-red-800 mb-2"><i class="fa-solid fa-people-arrows"></i> Mode of Transmission</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Direct spread:</strong> respiratory droplets (coughing, sneezing).</li>
+                                <li><strong>Close contact:</strong> crowding facilitates spread.</li>
+                                <li><strong>Incubation period:</strong> <span class="reveal-text font-bold">7‑10 days (not exceeding 21 days)</span>.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 p-5 rounded-xl border border-amber-200">
+                            <h3 class="font-bold text-lg">Period of Communicability</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Early catarrhal stage</strong> – most infectious (before paroxysmal cough).</li>
+                                <li>From <span class="reveal-text">7 days after exposure</span> up to <span class="reveal-text">3 weeks after onset of typical paroxysms</span>.</li>
+                                <li>Untreated patients remain infectious for about 3 weeks after cough onset.</li>
+                                <li>With appropriate antibiotics (macrolides), communicability reduces to <span class="reveal-text">5 days</span>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button onclick="openQuiz('transmission')" class="mt-8 w-full bg-slate-800 text-white font-black py-4 rounded-xl shadow-md hover:bg-slate-900 transition-colors flex items-center justify-center text-lg"><i class="fa-solid fa-list-check mr-3 text-2xl text-pert"></i> Take Quiz to Unlock Next Section</button>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Prevention & Vaccination -->
+            <section id="prevention" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-pert pb-3"><i class="fa-solid fa-syringe text-pert mr-4"></i> Prevention & Vaccination</h2>
+                    <div class="bg-green-50 p-5 rounded-xl border border-green-200 mb-6">
+                        <h3 class="font-black text-green-800 text-xl"><i class="fa-solid fa-vaccine"></i> DPT / DTaP Immunization (EPI, Philippines)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+                            <div class="bg-white p-3 rounded shadow-sm text-center"><strong>6 weeks</strong><br>1st dose (DPT1)</div>
+                            <div class="bg-white p-3 rounded shadow-sm text-center"><strong>10 weeks</strong><br>2nd dose (DPT2)</div>
+                            <div class="bg-white p-3 rounded shadow-sm text-center"><strong>14 weeks</strong><br>3rd dose (DPT3)</div>
+                        </div>
+                        <p class="mt-3 text-sm"><strong>Booster doses:</strong> at <span class="reveal-text">18‑24 months</span> (DPT booster) and <span class="reveal-text">4‑6 years</span> (preschool booster).</p>
+                        <p class="mt-2 text-xs">* Whole‑cell pertussis vaccine (wP) is used in public EPI; acellular (aP) in private sector.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl">
+                        <h3 class="font-bold">Other Preventive Measures</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-sm mt-2">
+                            <li>Isolation of cases until <span class="reveal-text">3 weeks after paroxysmal cough onset</span> (or 5 days after starting antibiotics).</li>
+                            <li>Post‑exposure prophylaxis (PEP) with macrolides for susceptible household contacts.</li>
+                            <li>Cocooning strategy: vaccinate all close contacts of infants (parents, siblings, caregivers).</li>
+                        </ul>
+                    </div>
+                    <button onclick="openQuiz('prevention')" class="mt-8 w-full bg-slate-800 text-white font-black py-4 rounded-xl shadow-md hover:bg-slate-900 transition-colors flex items-center justify-center text-lg"><i class="fa-solid fa-list-check mr-3 text-2xl text-pert"></i> Take Quiz to Unlock Next Section</button>
+                </div>
+            </section>
+
+            <!-- SECTION 5: Treatment & Complications -->
+            <section id="treatment" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-pert pb-3"><i class="fa-solid fa-capsules text-pert mr-4"></i> Treatment & Complications</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-amber-50 p-5 rounded-xl border border-amber-200">
+                            <h3 class="font-bold text-lg">Treatment</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Antibiotics:</strong> Macrolides (azithromycin, clarithromycin, erythromycin) – shorten communicability, may reduce severity if given early in catarrhal stage.</li>
+                                <li><strong>Supportive care:</strong> oxygen, hydration, suction, monitoring for apnea.</li>
+                                <li><strong>Hospitalization:</strong> for infants <6 months, severe paroxysms, cyanosis, or complications.</li>
+                                <li>Avoid cough suppressants – they do not help and may be harmful.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-5 rounded-xl border border-red-200">
+                            <h3 class="font-bold text-red-800">Complications</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-sm">
+                                <li><span class="reveal-text">Pneumonia</span> (most common cause of death).</li>
+                                <li>Apnea, bradycardia (especially in infants).</li>
+                                <li>Seizures, encephalopathy (due to hypoxia or toxin).</li>
+                                <li>Otitis media, dehydration, weight loss.</li>
+                                <li>Pneumothorax, hernia, subconjunctival hemorrhages (from forceful coughing).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button onclick="openQuiz('treatment')" class="mt-8 w-full bg-slate-800 text-white font-black py-4 rounded-xl shadow-md hover:bg-slate-900 transition-colors flex items-center justify-center text-lg"><i class="fa-solid fa-list-check mr-3 text-2xl text-pert"></i> Take Quiz to Unlock Next Section</button>
+                </div>
+            </section>
+
+            <!-- SECTION 6: PHN Role & Nursing Care -->
+            <section id="phn" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-pert pb-3"><i class="fa-solid fa-user-nurse text-pert mr-4"></i> PHN Role & Nursing Care</h2>
+                    <ul class="list-disc pl-5 space-y-3 text-slate-700">
+                        <li><strong>Health education:</strong> Emphasize dangers of pertussis, need for <span class="reveal-text">complete DPT immunization</span> at 6,10,14 weeks.</li>
+                        <li><strong>Case finding & reporting:</strong> Pertussis is a notifiable disease (under NESSS clinically diagnosed).</li>
+                        <li><strong>Isolation:</strong> Advise families to keep child away from school/childcare for <span class="reveal-text">3 weeks</span> (or 5 days after starting antibiotics).</li>
+                        <li><strong>Nursing care during paroxysms:</strong> 
+                            <ul class="list-circle pl-5 mt-1">
+                                <li>Position upright, support abdominal muscles.</li>
+                                <li>Provide cool, humidified oxygen if needed.</li>
+                                <li>Small, frequent feeds to prevent vomiting.</li>
+                                <li>Maintain airway; suction if needed.</li>
+                                <li>Monitor for apnea and cyanosis.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Complication monitoring:</strong> watch for pneumonia, seizures, dehydration.</li>
+                        <li><strong>Contact tracing & prophylaxis:</strong> identify susceptible household contacts (especially infants) and offer antibiotics/vaccine.</li>
+                    </ul>
+                    <div class="bg-indigo-50 mt-6 p-4 rounded-xl border border-indigo-200">
+                        <p class="font-bold"><i class="fa-regular fa-hospital"></i> Related DOH Programs:</p>
+                        <p>Expanded Program on Immunization (EPI) · Integrated Management of Childhood Illness (IMCI)</p>
+                    </div>
+                    <button onclick="openQuiz('phn')" class="mt-8 w-full bg-slate-800 text-white font-black py-4 rounded-xl shadow-md hover:bg-slate-900 transition-colors flex items-center justify-center text-lg"><i class="fa-solid fa-list-check mr-3 text-2xl text-pert"></i> Take Quiz to Unlock Next Section</button>
+                </div>
+            </section>
+
+            <!-- SECTION 7: Mnemonic Appendix -->
+            <section id="mnemonics" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-pert pb-3"><i class="fa-solid fa-brain text-pert mr-4"></i> Mnemonic Appendix</h2>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                        <table class="w-full text-left text-sm md:text-base">
+                            <thead class="bg-slate-800 text-white"><tr><th class="p-3">Topic</th><th class="p-3">Mnemonic</th><th class="p-3">Meaning</th></tr></thead>
+                            <tbody class="divide-y bg-white">
+                                <tr><td class="p-3 font-semibold">Clinical stages</td><td class="font-black text-pert">C.P.C.</td><td class="reveal-text">Catarrhal → Paroxysmal → Convalescent</td></tr>
+                                <tr class="bg-slate-50"><td class="p-3 font-semibold">Classic cough sound</td><td class="font-black text-pert">“Whoop”</td><td class="reveal-text">Inspiratory whoop after paroxysm</td></tr>
+                                <tr><td class="p-3 font-semibold">Complications</td><td class="font-black text-pert">P.A.S.S.</td><td class="reveal-text">Pneumonia, Apnea, Seizures, Subconjunctival hemorrhage</td></tr>
+                                <tr class="bg-slate-50"><td class="p-3 font-semibold">DPT schedule (EPI)</td><td class="font-black text-pert">6‑10‑14 weeks</td><td class="reveal-text">Primary doses at 6, 10, 14 weeks</td></tr>
+                                <tr><td class="p-3 font-semibold">Isolation duration</td><td class="font-black text-pert">3 weeks (or 5 days on Abx)</td><td class="reveal-text">Infectious for 3 weeks post‑paroxysms, 5 days after starting macrolides</td></tr>
+                                <tr class="bg-slate-50"><td class="p-3 font-semibold">Lab finding</td><td class="font-black text-pert">Lymphocytosis</td><td class="reveal-text">Marked leukocytosis with absolute lymphocytosis</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button onclick="openQuiz('final_quiz')" class="mt-8 w-full bg-amber-500 text-slate-900 font-black py-4 rounded-xl shadow-md hover:bg-amber-400 transition-colors text-lg"><i class="fa-solid fa-graduation-cap mr-3"></i> Take Final 50‑Item Exam</button>
+                </div>
+            </section>
+
+            <!-- FINAL QUIZ SECTION -->
+            <section id="final_quiz_sec" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center min-h-[60vh] flex flex-col justify-center items-center">
+                    <i class="fa-solid fa-graduation-cap text-8xl text-amber-400 mb-6"></i>
+                    <h2 class="text-4xl font-black text-slate-800 mb-4">Final Comprehensive Exam</h2>
+                    <p class="text-lg text-slate-600 mb-8 max-w-2xl">You have completed all modules. Test your mastery of Pertussis – 50 items, need 75% to pass.</p>
+                    <button onclick="openQuiz('final_quiz')" class="w-full max-w-md bg-slate-800 text-white font-black py-4 rounded-xl shadow-md hover:bg-slate-900 transition-colors text-xl">Start Final Exam</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="quiz-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeQuiz()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <h2 id="quiz-title" class="text-3xl font-black text-slate-800 mb-2"></h2>
+            <p class="text-slate-600 mb-6 font-medium border-b border-slate-200 pb-4">Score at least <span class="font-bold text-pert">75%</span> to unlock next section.</p>
+            <div id="quiz-questions-container" class="space-y-6"></div>
+            <button id="quiz-submit-btn" onclick="submitQuiz()" class="mt-8 w-full bg-pert text-white font-bold py-4 rounded-xl hover:bg-pert-dark transition-colors shadow-lg text-lg">Submit Answers</button>
+            <div id="quiz-result-container" class="hidden mt-6 text-center"></div>
+        </div>
+    </div>
+
+    <script>
+        let unlockedSections = ['home'];
+        const quizzes = {
+            overview: { next: 'clinical', questions: [
+                { q: "What is the causative agent of pertussis?", options: ["Bordetella bronchiseptica", "Bordetella pertussis", "Haemophilus influenzae", "Streptococcus pneumoniae"], ans: 1 },
+                { q: "Which age group has the highest mortality from pertussis?", options: ["Adults", "Infants under 6 months", "School children 5‑10 yrs", "Elderly"], ans: 1 },
+                { q: "One attack of pertussis confers:", options: ["No immunity", "Short‑term immunity", "Definite and prolonged immunity", "Only partial immunity"], ans: 2 },
+                { q: "The source of infection is from:", options: ["Fecal matter", "Blood", "Discharges from respiratory mucous membranes", "Urine"], ans: 2 },
+                { q: "Pertussis is most common in children under:", options: ["1 year", "5 years", "7 years", "12 years"], ans: 2 },
+                { q: "Second attacks of pertussis are:", options: ["Common", "Rare", "Always fatal", "More severe"], ans: 1 },
+                { q: "Which of the following best describes pertussis?", options: ["Acute viral illness", "Chronic bacterial infection", "Acute highly communicable respiratory infection", "Fungal disease"], ans: 2 },
+                { q: "The bacteria was formerly known as:", options: ["Bordet‑Gengou bacillus", "Klebs‑Loeffler bacillus", "Pfeiffer's bacillus", "Koch's bacillus"], ans: 0 },
+                { q: "Pertussis is also called:", options: ["Whooping cough", "100‑day cough", "Both A and B", "Croup"], ans: 2 },
+                { q: "Mortality is highest in infants due to:", options: ["Septic shock", "Pneumonia and apnea", "Meningitis", "Liver failure"], ans: 1 }
+            ] },
+            clinical: { next: 'transmission', questions: [
+                { q: "The earliest stage of pertussis is the:", options: ["Paroxysmal stage", "Convalescent stage", "Catarrhal stage", "Latent stage"], ans: 2 },
+                { q: "Characteristic inspiratory sound after a coughing paroxysm is called:", options: ["Stridor", "Whoop", "Wheeze", "Rales"], ans: 1 },
+                { q: "Post‑tussive vomiting is typical of which stage?", options: ["Catarrhal", "Paroxysmal", "Convalescent", "All stages"], ans: 1 },
+                { q: "The catarrhal stage lasts approximately:", options: ["1‑2 weeks", "2‑6 weeks", "6‑8 weeks", "1‑2 months"], ans: 0 },
+                { q: "Which laboratory finding is classic for pertussis?", options: ["Neutrophilia", "Lymphocytosis", "Thrombocytopenia", "Eosinophilia"], ans: 1 },
+                { q: "Paroxysmal stage may last up to:", options: ["1 week", "2 weeks", "6 weeks", "12 weeks"], ans: 2 },
+                { q: "During paroxysms, the infant may become:", options: ["Cyanotic", "Apneic", "Exhausted", "All of the above"], ans: 3 },
+                { q: "The gold standard for laboratory diagnosis is:", options: ["Serology", "PCR", "Culture from nasopharyngeal swab", "Chest X‑ray"], ans: 2 },
+                { q: "Convalescent stage is characterized by:", options: ["Gradual decrease in cough", "Return of whoop", "Fever spikes", "New onset of vomiting"], ans: 0 },
+                { q: "Which stage is the most infectious?", options: ["Paroxysmal", "Catarrhal", "Convalescent", "Latent"], ans: 1 }
+            ] },
+            transmission: { next: 'prevention', questions: [
+                { q: "Incubation period of pertussis is usually:", options: ["2‑5 days", "7‑10 days", "14‑21 days", "1‑3 days"], ans: 1 },
+                { q: "A person with untreated pertussis is infectious for approximately:", options: ["5 days", "10 days", "3 weeks", "3 months"], ans: 2 },
+                { q: "After starting appropriate antibiotics, communicability reduces to:", options: ["24 hours", "5 days", "10 days", "14 days"], ans: 1 },
+                { q: "Mode of transmission is:", options: ["Fecal‑oral", "Droplet spread", "Bloodborne", "Vector‑borne"], ans: 1 },
+                { q: "Crowding facilitates spread due to:", options: ["Poor hygiene", "Close contact and droplet transmission", "Malnutrition", "Lack of vaccination"], ans: 1 },
+                { q: "Pertussis can be transmitted during:", options: ["Catarrhal stage only", "Paroxysmal stage only", "Both catarrhal and early paroxysmal stages", "Only after cough stops"], ans: 2 },
+                { q: "Maximum infectivity occurs within:", options: ["First week of catarrhal stage", "Second week of paroxysms", "Convalescence", "After antibiotic treatment"], ans: 0 },
+                { q: "The period of communicability ends after:", options: ["7 days from exposure", "3 weeks after paroxysms onset", "1 week of antibiotics", "When cough disappears"], ans: 1 },
+                { q: "Which of the following can interrupt transmission?", options: ["Isolation", "Antibiotics", "Vaccination", "All of the above"], ans: 3 },
+                { q: "Exposed susceptible infants should receive:", options: ["Post‑exposure prophylaxis with azithromycin", "No treatment", "Only supportive care", "Corticosteroids"], ans: 0 }
+            ] },
+            prevention: { next: 'treatment', questions: [
+                { q: "First DPT dose is given at what age?", options: ["Birth", "6 weeks", "10 weeks", "14 weeks"], ans: 1 },
+                { q: "How many primary doses of DPT are given in EPI?", options: ["2", "3", "4", "5"], ans: 1 },
+                { q: "Booster dose for pertussis is recommended at:", options: ["12 months", "18‑24 months", "4‑6 years", "Both B and C"], ans: 3 },
+                { q: "The vaccine used in public EPI is:", options: ["Acellular pertussis (aP)", "Whole‑cell pertussis (wP)", "Both", "None"], ans: 1 },
+                { q: "Cocooning strategy means:", options: ["Isolating the patient", "Vaccinating close contacts of infants", "Mass vaccination", "Quarantine"], ans: 1 },
+                { q: "Isolation of case is recommended for:", options: ["3 days", "5 days", "3 weeks (or 5 days after Abx)", "Until cough stops"], ans: 2 },
+                { q: "Post‑exposure prophylaxis for household contacts is:", options: ["DPT vaccine only", "Macrolide antibiotics", "Corticosteroids", "Immunoglobulin"], ans: 1 },
+                { q: "DPT is contraindicated in:", options: ["Mild fever", "Malnutrition", "Previous anaphylaxis or encephalopathy after previous dose", "Common cold"], ans: 2 },
+                { q: "What does the 'P' in DPT stand for?", options: ["Pneumococcal", "Pertussis", "Polio", "Parainfluenza"], ans: 1 },
+                { q: "The primary purpose of DPT vaccination is:", options: ["Cure pertussis", "Prevent severe pertussis and its complications", "Treat carriers", "Reduce fever"], ans: 1 }
+            ] },
+            treatment: { next: 'phn', questions: [
+                { q: "Drug of choice for pertussis is:", options: ["Penicillin", "Macrolide (azithromycin)", "Tetracycline", "Rifampin"], ans: 1 },
+                { q: "Antibiotics are most effective if given during:", options: ["Paroxysmal stage", "Catarrhal stage", "Convalescent stage", "After 3 weeks"], ans: 1 },
+                { q: "Commonest complication of pertussis is:", options: ["Encephalopathy", "Pneumonia", "Otitis media", "Dehydration"], ans: 1 },
+                { q: "Which of the following is NOT a complication?", options: ["Pneumothorax", "Subconjunctival hemorrhage", "Reye syndrome", "Seizures"], ans: 2 },
+                { q: "Hospitalization is indicated for:", options: ["Infants <6 months", "Cyanosis or apnea", "Poor feeding/dehydration", "All of the above"], ans: 3 },
+                { q: "Supportive care includes all EXCEPT:", options: ["Oxygen", "Hydration", "Cough suppressants", "Suction"], ans: 2 },
+                { q: "Why are cough suppressants avoided?", options: ["They are ineffective and may mask progression", "They cause sedation", "They increase pneumonia risk", "They are expensive"], ans: 0 },
+                { q: "The most common cause of death in pertussis is:", options: ["Seizures", "Pneumonia", "Encephalopathy", "Cardiac arrest"], ans: 1 },
+                { q: "In infants, coughing paroxysms may be replaced by:", options: ["Fever", "Apnea episodes", "Diarrhea", "Rash"], ans: 1 },
+                { q: "Fluid management in pertussis focuses on:", options: ["Restrict fluids", "Force fluids even with vomiting", "Small frequent feeds to reduce vomiting", "IV fluids only"], ans: 2 }
+            ] },
+            phn: { next: 'mnemonics', questions: [
+                { q: "The most important nursing action to prevent pertussis is:", options: ["Isolation", "Promote immunization", "Antibiotics for all contacts", "Handwashing"], ans: 1 },
+                { q: "When a child is diagnosed with pertussis, the nurse should advise isolation for:", options: ["3 weeks or 5 days on antibiotics", "Until cough resolves", "1 week", "2 months"], ans: 0 },
+                { q: "Pertussis is a notifiable disease under which surveillance system?", options: ["FHSIS", "NESSS (clinically diagnosed)", "PhilHealth", "DOH ER"], ans: 1 },
+                { q: "During a paroxysm, the nurse should:", options: ["Lay the child flat", "Suction vigorously", "Position upright and support abdomen", "Give oral fluids"], ans: 2 },
+                { q: "For a family with a newborn and a school‑age child with pertussis, the nurse should recommend:", options: ["Isolate the newborn", "Give PEP (azithromycin) to the newborn and other contacts", "No action", "Vaccinate the newborn immediately"], ans: 1 },
+                { q: "The key to reducing pertussis incidence in the community is:", options: ["Mass antibiotic prophylaxis", "High vaccination coverage", "Isolation of all cases", "Reporting only"], ans: 1 },
+                { q: "Which sign indicates severe pertussis in an infant?", options: ["Mild cough", "Apnea", "Low‑grade fever", "Rhinorrhea"], ans: 1 },
+                { q: "A child with pertussis should be excluded from school for:", options: ["5 days", "3 weeks (or 5 days on appropriate antibiotics)", "2 weeks", "Until negative culture"], ans: 1 },
+                { q: "The nurse should monitor for which complication in a hospitalized child?", options: ["Pneumonia", "Seizures", "Dehydration", "All of the above"], ans: 3 },
+                { q: "What should the nurse teach parents regarding home care?", options: ["Use cough suppressants freely", "Keep child away from other children, provide small frequent feeds, monitor breathing", "Only give antibiotics", "No need for isolation"], ans: 1 }
+            ] }
+        };
+
+        // Build final quiz (50 items)
+        let finalQ = [];
+        for (let sec of ['overview','clinical','transmission','prevention','treatment','phn']) {
+            finalQ = finalQ.concat(quizzes[sec].questions.slice(0,7));
+        }
+        while(finalQ.length < 50) finalQ.push({ q: "What is the first line antibiotic for pertussis?", options: ["Amoxicillin", "Azithromycin", "Ciprofloxacin", "Doxycycline"], ans: 1 });
+        quizzes['final_quiz'] = { title: 'Final 50‑Item Exam', next: null, questions: finalQ };
+
+        function unlockFirstSection() { if(!unlockedSections.includes('overview')) { unlockedSections.push('overview'); updateSidebarUI(); } showSection('overview'); }
+        function showSection(sectionId) {
+            if (!unlockedSections.includes(sectionId) && sectionId !== 'home') { alert("Please pass the Active Recall Quiz at the bottom of the previous section to unlock this content."); return; }
+            document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(sectionId)?.classList.remove('hidden');
+            document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('bg-pert-light','text-pert-dark','border-r-4','border-pert-dark'); btn.classList.add('text-slate-600'); });
+            const activeBtn = document.getElementById('btn-'+sectionId);
+            if(activeBtn) { activeBtn.classList.remove('text-slate-600'); activeBtn.classList.add('bg-pert-light','text-pert-dark','border-r-4','border-pert-dark'); }
+            if(window.innerWidth < 768) document.getElementById('sidebar').classList.add('hidden');
+            document.querySelector('main').scrollTop = 0;
+        }
+        function updateSidebarUI() {
+            const sections = ['home','overview','clinical','transmission','prevention','treatment','phn','mnemonics','final_quiz_sec'];
+            sections.forEach(sec => {
+                const btn = document.getElementById('btn-'+sec);
+                if(!btn) return;
+                const lockIcon = btn.querySelector('.fa-lock'), mainIcon = btn.querySelector('.nav-icon');
+                if(unlockedSections.includes(sec) || sec==='home') { btn.classList.remove('locked-section'); if(lockIcon) lockIcon.classList.add('hidden'); if(mainIcon) mainIcon.classList.remove('hidden'); }
+                else { btn.classList.add('locked-section'); if(lockIcon) lockIcon.classList.remove('hidden'); if(mainIcon) mainIcon.classList.add('hidden'); }
+            });
+        }
+        let currentQuiz = null;
+        function openQuiz(sectionId) {
+            currentQuiz = sectionId;
+            const qd = quizzes[sectionId];
+            document.getElementById('quiz-title').innerText = qd.title;
+            const container = document.getElementById('quiz-questions-container');
+            container.innerHTML = '';
+            qd.questions.forEach((q, idx) => {
+                let html = `<div class="bg-slate-50 p-4 rounded-xl border mb-4"><p class="font-bold mb-3">${idx+1}. ${q.q}</p><div class="space-y-2">`;
+                q.options.forEach((opt, oi) => html += `<label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white"><input type="radio" name="q${idx}" value="${oi}"> <span>${opt}</span></label>`);
+                html += `</div></div>`;
+                container.innerHTML += html;
+            });
+            document.getElementById('quiz-submit-btn').classList.remove('hidden');
+            document.getElementById('quiz-result-container').classList.add('hidden');
+            document.getElementById('quiz-modal').classList.remove('hidden');
+        }
+        function closeQuiz() { document.getElementById('quiz-modal').classList.add('hidden'); }
+        function submitQuiz() {
+            const qd = quizzes[currentQuiz];
+            let score = 0;
+            for(let i=0; i<qd.questions.length; i++) {
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
+                if(sel && parseInt(sel.value) === qd.questions[i].ans) score++;
+            }
+            const percent = (score/qd.questions.length)*100;
+            const resultDiv = document.getElementById('quiz-result-container');
+            const btn = document.getElementById('quiz-submit-btn');
+            btn.classList.add('hidden');
+            resultDiv.classList.remove('hidden');
+            if(percent >= 75) {
+                if(currentQuiz === 'final_quiz') {
+                    resultDiv.innerHTML = `<div class="text-amber-500 text-6xl mb-4">🏆</div><h3 class="text-2xl font-black">Excellent!</h3><p>Score ${score}/${qd.questions.length} (${percent}%)</p><p class="mt-2 text-green-700">You mastered Pertussis!</p><button onclick="closeQuiz()" class="mt-6 bg-slate-800 text-white px-6 py-2 rounded-lg">Close</button>`;
+                    return;
+                }
+                if(qd.next && !unlockedSections.includes(qd.next)) { unlockedSections.push(qd.next); if(qd.next === 'mnemonics') unlockedSections.push('final_quiz_sec'); updateSidebarUI(); }
+                resultDiv.innerHTML = `<div class="text-green-600 text-5xl mb-4">✓</div><h3 class="text-2xl font-black">Passed!</h3><p>Score ${score}/${qd.questions.length} (${percent}%)</p><button onclick="closeQuiz(); showSection('${qd.next}')" class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg">Unlock Next Section</button>`;
+            } else {
+                resultDiv.innerHTML = `<div class="text-red-500 text-5xl mb-4">✗</div><h3 class="text-2xl font-black">Failed</h3><p>Score ${score}/${qd.questions.length} (${percent}%) – need 75%.</p><button onclick="openQuiz('${currentQuiz}')" class="mt-4 bg-slate-600 text-white px-6 py-2 rounded-lg">Try Again</button>`;
+            }
+        }
+        function toggleRecallMode() {
+            const active = !document.body.classList.contains('recall-mode');
+            const toggle = document.getElementById('recall-toggle'), knob = document.getElementById('recall-knob');
+            if(active) { document.body.classList.add('recall-mode'); toggle.classList.add('bg-pert-dark'); knob.classList.add('translate-x-6'); }
+            else { document.body.classList.remove('recall-mode'); toggle.classList.remove('bg-pert-dark'); knob.classList.remove('translate-x-6'); }
+        }
+        function toggleMobileMenu() { const s=document.getElementById('sidebar'); if(s.classList.contains('hidden')) s.classList.remove('hidden','flex','absolute','h-full','z-50'); else s.classList.add('hidden'); }
+        document.addEventListener('DOMContentLoaded', () => { updateSidebarUI(); document.querySelectorAll('.reveal-text').forEach(el => el.addEventListener('click', function(){ if(document.body.classList.contains('recall-mode')) this.classList.toggle('revealed'); })); });
+    </script>
+</body>
+</html>
